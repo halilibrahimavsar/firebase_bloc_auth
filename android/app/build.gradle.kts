@@ -19,7 +19,7 @@ dependencies {
 android {
     namespace = "com.example.firebase_bloc_auth"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

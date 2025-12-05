@@ -19,23 +19,36 @@ export 'package:firebase_bloc_auth/src/views/private_pages/profile_update_page.d
 
 /// ```dart
 /// WidgetsFlutterBinding.ensureInitialized();
-///  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+/// await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 /// ```
 /// {@end-tool}
 /// This file includes the Firebase Auth library, so you can simply invoke
 /// `CallFirebaseAuth(privateWidget: YourWidget)` and everything will be taken care of.
 /// If the user logs in successfully, your private widget will be displayed.
-/// You can acces user details by calling [AuthUser]
+/// You can access user details by calling [AuthUser]
 /// and then you can call [ProfileUpdatePage] wherever you want
+///
+/// Optional parameters:
+/// - [themeData]: Custom theme for the authentication UI
+/// - [createUserCollection]: If true, creates a Firestore collection for each user
 class CallFirebaseAuth extends StatelessWidget {
   final Widget privateWidget;
-  const CallFirebaseAuth({super.key, required this.privateWidget});
+  final ThemeData? themeData;
+  final bool createUserCollection;
+
+  const CallFirebaseAuth({
+    super.key,
+    required this.privateWidget,
+    this.themeData,
+    this.createUserCollection = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthBloc(),
+      create: (context) => AuthBloc(createUserCollection: createUserCollection),
       child: MaterialApp(
+        theme: themeData,
         routes: {
           '/public': (context) => PublicPage(privatePage: privateWidget),
           '/private': (context) => const ProfileUpdatePage(),

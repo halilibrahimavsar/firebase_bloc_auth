@@ -58,6 +58,7 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
       // not building correctly in name updating
       listener: (context, state) {
         if (state is AuthUpdateErrorState) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.toString())),
           );

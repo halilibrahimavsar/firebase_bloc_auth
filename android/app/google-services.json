@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "867741449655",
+    "project_id": "my-bloc-auth",
+    "storage_bucket": "my-bloc-auth.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867741449655:android:1bc8a38d3f5d496c86bc32",
+        "android_client_info": {
+          "package_name": "com.example.bloc_3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867741449655-v151t28b2o65kgsi1det3pauetnlg0sd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bloc_3",
+            "certificate_hash": "c50dd62425fafaab6f7f5e68a27fbb7299d2920b"
+          }
+        },
+        {
+          "client_id": "867741449655-s2fbp63m30ffmrhjukknt0q4kd3q0hun.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPqv-PGUX_12gL-MNshG-l8iYki6AvgkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867741449655-s2fbp63m30ffmrhjukknt0q4kd3q0hun.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867741449655:android:49ac69ad7c19cba386bc32",
+        "android_client_info": {
+          "package_name": "com.example.firebase_bloc_auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867741449655-s2fbp63m30ffmrhjukknt0q4kd3q0hun.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPqv-PGUX_12gL-MNshG-l8iYki6AvgkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867741449655-s2fbp63m30ffmrhjukknt0q4kd3q0hun.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

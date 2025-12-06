@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 export 'call_firebase_auth.dart';
 export 'package:firebase_bloc_auth/src/authentication/auth_services/auth_user_repository.dart';
 export 'package:firebase_bloc_auth/src/views/private_pages/profile_update_page.dart';
+export 'package:firebase_bloc_auth/src/views/private_pages/user_data_referances.dart';
 
 /// Before using this package, you should initialize and setup your firebase
 /// console into your project. After that you should call

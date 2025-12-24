@@ -134,8 +134,10 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
           }
         },
         builder: (context, state) {
+          String displayName = user?.displayName ?? 'User';
           if (state is NameUpdatedState) {
             nameController.text = state.newName;
+            displayName = state.newName;
           }
 
           return CustomScrollView(
@@ -150,7 +152,7 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          _buildProfileCard(user),
+                          _buildProfileCard(user, displayName),
                           const SizedBox(height: 20),
                           _buildSecurityCard(),
                           const SizedBox(height: 20),
@@ -203,7 +205,7 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
     );
   }
 
-  Widget _buildProfileCard(User? user) {
+  Widget _buildProfileCard(User? user, String displayName) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -226,7 +228,9 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
                 user?.photoURL != null ? NetworkImage(user!.photoURL!) : null,
             child: user?.photoURL == null
                 ? Text(
-                    (user?.displayName ?? 'U').substring(0, 1).toUpperCase(),
+                    (displayName.isNotEmpty ? displayName : 'U')
+                        .substring(0, 1)
+                        .toUpperCase(),
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -241,7 +245,7 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user?.displayName ?? 'User',
+                  displayName,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

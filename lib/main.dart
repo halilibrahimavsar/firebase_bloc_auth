@@ -16,7 +16,7 @@ void main() async {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      createUserCollection: true, // Enable automatic user collection creation
+      createUserCollection: false, // Enable automatic user collection creation
     ),
   );
 }

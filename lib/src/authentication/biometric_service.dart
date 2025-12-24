@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth_android/local_auth_android.dart';
@@ -9,7 +10,11 @@ class BiometricService {
   BiometricService._internal();
 
   final LocalAuthentication _localAuth = LocalAuthentication();
-  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),
+  );
 
   static const String _biometricEnabledKey = 'biometric_enabled';
   static const String _pinCodeKey = 'pin_code';
@@ -19,6 +24,7 @@ class BiometricService {
     try {
       return await _localAuth.canCheckBiometrics;
     } catch (e) {
+      debugPrint('Biometric Check Error: $e');
       return false;
     }
   }
@@ -30,6 +36,7 @@ class BiometricService {
       final isDeviceSupported = await _localAuth.isDeviceSupported();
       return canCheck && isDeviceSupported;
     } catch (e) {
+      debugPrint('Biometric Availability Error: $e');
       return false;
     }
   }
@@ -39,6 +46,7 @@ class BiometricService {
     try {
       return await _localAuth.getAvailableBiometrics();
     } catch (e) {
+      debugPrint('Get Biometrics Error: $e');
       return [];
     }
   }
@@ -65,10 +73,11 @@ class BiometricService {
         ],
         options: const AuthenticationOptions(
           stickyAuth: true,
-          biometricOnly: true,
+          biometricOnly: false,
         ),
       );
     } catch (e) {
+      debugPrint('Authentication Error: $e');
       return false;
     }
   }

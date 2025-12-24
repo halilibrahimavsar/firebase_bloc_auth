@@ -5,7 +5,6 @@ import 'package:firebase_bloc_auth/src/views/private_pages/security_settings_pag
 import 'package:firebase_bloc_auth/src/views/public_pages/custom_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restart_app/restart_app.dart';
 
 class ProfileUpdatePage extends StatefulWidget {
   const ProfileUpdatePage({super.key});
@@ -118,6 +117,20 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
                 ),
               ),
             );
+          } else if (state is PasswdUpdatedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password updated successfully. Restarting...'),
+                backgroundColor: Colors.green,
+              ),
+            );
+            // Not: Şifre güncellendiğinde Bloc otomatik olarak LogoutEvent tetikliyor.
+            // Bu yüzden aşağıda UnauthenticatedState yakalanıp yönlendirme yapılacak.
+          } else if (state is UnauthenticatedState) {
+            // Geçmişi silerek Giriş sayfasına yönlendir (Geri tuşu sorununu çözer)
+            // Buradaki '/login' yerine projenizdeki giriş sayfası route ismini yazın
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/public', (route) => false);
           }
         },
         builder: (context, state) {
@@ -403,8 +416,7 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
                     context.read<AuthBloc>().add(
                           UpdateNameEvent(name: nameController.text),
                         );
-                    await Future.delayed(const Duration(seconds: 1));
-                    Restart.restartApp();
+                    // İsim güncelleme sonrası restart gerekmez, Bloc zaten UI'ı günceller.
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -594,8 +606,6 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
                                 UpdatePasswdEvent(
                                     passwd: passwordController1.text),
                               );
-                          await Future.delayed(const Duration(seconds: 1));
-                          Restart.restartApp();
                         }
                       }
                     : null,
@@ -651,8 +661,7 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
             );
             if (context.mounted && result) {
               context.read<AuthBloc>().add(LogoutEvent());
-              await Future.delayed(const Duration(seconds: 1));
-              Restart.restartApp();
+              // Restart kaldırıldı. Listener'daki UnauthenticatedState yönlendirmeyi yapacak.
             }
           },
           borderRadius: BorderRadius.circular(20),

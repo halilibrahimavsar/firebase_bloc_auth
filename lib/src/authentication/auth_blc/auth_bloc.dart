@@ -20,7 +20,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       : super(UnauthenticatedState()) {
     on<IsAuthenticatedEvent>(
       (event, emit) async {
-        emit(LoadingState());
+        // Döngü Engelleme: Eğer zaten çıkış yapılmışsa (UnauthenticatedState),
+        // tekrar LoadingState yayarak arayüzü tetiklemeye gerek yok.
+        if (state is! UnauthenticatedState) {
+          emit(LoadingState());
+        }
         AuthUserRepository? currentUser =
             await CustomSharedAuthProvider().isAuthenticated();
 
@@ -149,9 +153,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<LogoutEvent>((event, emit) async {
       emit(LoadingState());
-      await CustomSharedAuthProvider().logOut().then((value) {
-        emit(UnauthenticatedState());
-      });
+      try {
+        await CustomSharedAuthProvider().logOut();
+      } catch (e) {
+        // Hata olsa bile kullanıcıyı çıkış yapmış saymak arayüzün takılmasını önler
+        log('Logout error: $e', name: "${ansiRed}AuthBloc$ansiReset");
+      }
+      emit(UnauthenticatedState());
     });
 
     on<RemainingTimeEvent>((event, emit) async {

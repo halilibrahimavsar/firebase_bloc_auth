@@ -184,8 +184,6 @@ class PublicPageState extends State<PublicPage>
               ),
             ),
           );
-        } else if (state is UserShouldVerifyEmailState) {
-          Navigator.pushNamed(context, "/confirm_email");
         } else if (state is TooManyRequestState) {
           Navigator.pushNamed(context, "/wait_a_little");
         } else if (state is PasswordResetSendedToEmailState) {

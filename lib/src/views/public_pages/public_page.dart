@@ -1,7 +1,7 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:ui';
 import 'package:firebase_bloc_auth/src/authentication/auth_blc/auth_bloc.dart';
+import 'package:firebase_bloc_auth/src/authentication/biometric_service.dart';
+import 'package:firebase_bloc_auth/src/views/private_pages/biometric_auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -23,7 +23,9 @@ class PublicPageState extends State<PublicPage>
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
+  final BiometricService _biometricService = BiometricService();
   bool _obscure = true;
+  bool _needsBiometricAuth = false;
 
   @override
   void initState() {
@@ -43,7 +45,19 @@ class PublicPageState extends State<PublicPage>
 
     _controller.forward();
 
+    _checkAuthentication();
+  }
+
+  Future<void> _checkAuthentication() async {
     context.read<AuthBloc>().add(IsAuthenticatedEvent());
+
+    // Check if user has biometric or PIN enabled
+    final biometricEnabled = await _biometricService.isBiometricEnabled();
+    final pinEnabled = await _biometricService.isPinCodeSet();
+
+    setState(() {
+      _needsBiometricAuth = biometricEnabled || pinEnabled;
+    });
   }
 
   @override
@@ -66,9 +80,9 @@ class PublicPageState extends State<PublicPage>
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         border: Border.all(
-          color: Colors.white.withOpacity(0.3),
+          color: Colors.white.withValues(alpha: 0.3),
         ),
       ),
       child: TextField(
@@ -77,7 +91,7 @@ class PublicPageState extends State<PublicPage>
         style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
+          labelStyle: TextStyle(color: Colors.white.withValues(alpha: 0.8)),
           border: InputBorder.none,
           prefixIcon: Icon(icon, color: Colors.white),
           suffixIcon: onToggle != null
@@ -155,7 +169,20 @@ class PublicPageState extends State<PublicPage>
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.toString())),
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.error_outline, color: Colors.white),
+                  const SizedBox(width: 12),
+                  Expanded(child: Text(state.toString())),
+                ],
+              ),
+              backgroundColor: Colors.redAccent,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
           );
         } else if (state is UserShouldVerifyEmailState) {
           Navigator.pushNamed(context, "/confirm_email");
@@ -164,12 +191,33 @@ class PublicPageState extends State<PublicPage>
         } else if (state is PasswordResetSendedToEmailState) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Password reset sent")),
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.check_circle, color: Colors.white),
+                  const SizedBox(width: 12),
+                  const Text("Password reset email sent!"),
+                ],
+              ),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
           );
         }
       },
       builder: (context, state) {
         if (state is AuthenticatedState) {
+          // If biometric/PIN is enabled, show auth screen
+          if (_needsBiometricAuth) {
+            return BiometricAuthPage(
+              onSuccess: () {
+                setState(() => _needsBiometricAuth = false);
+              },
+            );
+          }
           return widget.privatePage;
         }
 
@@ -178,7 +226,7 @@ class PublicPageState extends State<PublicPage>
           backgroundColor: Colors.black,
           body: Stack(
             children: [
-              // 🔵 Gradient Arkaplan
+              // Gradient Background
               Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -189,7 +237,7 @@ class PublicPageState extends State<PublicPage>
                 ),
               ),
 
-              // İçerik
+              // Content
               Center(
                 child: FadeTransition(
                   opacity: _fade,
@@ -204,7 +252,7 @@ class PublicPageState extends State<PublicPage>
                           child: Container(
                             padding: const EdgeInsets.all(25),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.15),
+                              color: Colors.white.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: Column(
@@ -219,7 +267,8 @@ class PublicPageState extends State<PublicPage>
                                     shadows: [
                                       Shadow(
                                         blurRadius: 10,
-                                        color: Colors.black.withOpacity(.2),
+                                        color:
+                                            Colors.black.withValues(alpha: .2),
                                       )
                                     ],
                                   ),
@@ -291,12 +340,12 @@ class PublicPageState extends State<PublicPage>
                 ),
               ),
 
-              // 🔄 Loading Overlay
+              // Loading Overlay
               if (state is LoadingState)
                 BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
                   child: Container(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(alpha: 0.3),
                   ),
                 ),
               if (state is LoadingState)

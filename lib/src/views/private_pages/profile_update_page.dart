@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_bloc_auth/src/authentication/auth_blc/auth_bloc.dart';
-import 'package:firebase_bloc_auth/src/authentication/auth_services/providers/shared_auth_providr.dart';
 import 'package:firebase_bloc_auth/src/authentication/biometric_service.dart';
 import 'package:firebase_bloc_auth/src/views/private_pages/security_settings_page.dart';
 import 'package:firebase_bloc_auth/src/views/public_pages/custom_alert_dialog.dart';
@@ -36,7 +35,8 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController();
+    nameController = TextEditingController(
+        text: FirebaseAuth.instance.currentUser?.displayName ?? 'User');
     oldPasswordController = TextEditingController();
     passwordController1 = TextEditingController();
     passwordController2 = TextEditingController();
@@ -84,12 +84,8 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
 
   void _isPasswdMatch(String value1, TextEditingController value2) {
     setState(() {
-      if ((value1.length == value2.text.length) && (value1 != value2.text)) {
+      if (value2.text.isNotEmpty && value1 != value2.text) {
         _errorText = 'Passwords do not match';
-      } else if (value1.length < value2.text.length) {
-        _errorText = 'Keep typing...';
-      } else if (value1.length > value2.text.length) {
-        _errorText = 'Too long, going backwards';
       } else {
         _errorText = null;
       }
@@ -99,7 +95,6 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    nameController.text = user?.displayName ?? 'User';
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -241,7 +236,7 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  CustomSharedAuthProvider.currentUsr?.email ?? '',
+                  user?.email ?? '',
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.grey[600],

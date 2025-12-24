@@ -49,17 +49,17 @@ class MyApp extends StatelessWidget {
                 child: const Text('Go to Profile'),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SubcollectionExample(),
-                    ),
-                  );
-                },
-                child: const Text('Subcollection Example'),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const SubcollectionExample(),
+              //       ),
+              //     );
+              //   },
+              //   child: const Text('Subcollection Example'),
+              // ),
             ],
           ),
         ),

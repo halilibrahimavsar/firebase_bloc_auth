@@ -1,6 +1,5 @@
 import 'package:firebase_bloc_auth/src/authentication/auth_blc/auth_bloc.dart';
 import 'package:firebase_bloc_auth/src/views/private_pages/profile_update_page.dart';
-import 'package:firebase_bloc_auth/src/views/public_pages/confirm_email_page.dart';
 import 'package:firebase_bloc_auth/src/views/public_pages/forgot_paswd_page.dart';
 import 'package:firebase_bloc_auth/src/views/public_pages/public_page.dart';
 import 'package:firebase_bloc_auth/src/views/public_pages/register_page.dart';
@@ -55,7 +54,7 @@ class CallFirebaseAuth extends StatelessWidget {
           '/private': (context) => const ProfileUpdatePage(),
           '/register': (context) => const RegisterPage(),
           '/wait_a_little': (context) => const WaitALittlePage(),
-          '/confirm_email': (context) => const ConfirmEmailPage(),
+          // '/confirm_email': (context) => const ConfirmEmailPage(),
           '/forgot_paswd': (context) => const ForgotPaswdPage(),
         },
         debugShowCheckedModeBanner: false,

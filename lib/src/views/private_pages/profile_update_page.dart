@@ -5,7 +5,6 @@ import 'package:firebase_bloc_auth/src/authentication/biometric_service.dart';
 import 'package:firebase_bloc_auth/src/views/private_pages/security_settings_page.dart';
 import 'package:firebase_bloc_auth/src/views/public_pages/custom_alert_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restart_app/restart_app.dart';
 
@@ -398,7 +397,7 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
                   color: Colors.green,
                   functionWhenConfirm: () {},
                 );
-                if (result && context.mounted) {
+                if (result && mounted) {
                   context.read<AuthBloc>().add(
                         UpdateNameEvent(name: nameController.text),
                       );
@@ -531,7 +530,7 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
                         color: Colors.orange,
                         functionWhenConfirm: () {},
                       );
-                      if (result && context.mounted) {
+                      if (result && mounted) {
                         context.read<AuthBloc>().add(
                               UpdatePasswdEvent(
                                   passwd: passwordController1.text),

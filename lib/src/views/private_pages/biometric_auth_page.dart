@@ -107,7 +107,7 @@ class _BiometricAuthPageState extends State<BiometricAuthPage>
             end: Alignment.bottomRight,
             colors: [
               Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.primary.withOpacity(0.7),
+              Theme.of(context).colorScheme.primary.withValues(alpha: 0.7),
               Theme.of(context).colorScheme.secondary,
             ],
           ),
@@ -130,7 +130,7 @@ class _BiometricAuthPageState extends State<BiometricAuthPage>
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               blurRadius: 20,
                               spreadRadius: 5,
                             ),
@@ -158,7 +158,7 @@ class _BiometricAuthPageState extends State<BiometricAuthPage>
                           ? 'Enter your PIN to continue'
                           : 'Authenticate to access your account',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontSize: 16,
                       ),
                       textAlign: TextAlign.center,
@@ -193,10 +193,10 @@ class _BiometricAuthPageState extends State<BiometricAuthPage>
                           child: Container(
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.3),
+                                color: Colors.white.withValues(alpha: 0.3),
                               ),
                             ),
                             child: Column(
@@ -216,19 +216,22 @@ class _BiometricAuthPageState extends State<BiometricAuthPage>
                                   decoration: InputDecoration(
                                     hintText: '• • • •',
                                     hintStyle: TextStyle(
-                                      color: Colors.white.withOpacity(0.5),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.5),
                                       letterSpacing: 8,
                                     ),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: BorderSide(
-                                        color: Colors.white.withOpacity(0.5),
+                                        color:
+                                            Colors.white.withValues(alpha: 0.5),
                                       ),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: BorderSide(
-                                        color: Colors.white.withOpacity(0.5),
+                                        color:
+                                            Colors.white.withValues(alpha: 0.5),
                                       ),
                                     ),
                                     focusedBorder: OutlineInputBorder(
@@ -334,11 +337,12 @@ class _BiometricAuthPageState extends State<BiometricAuthPage>
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color:
-                outlined ? Colors.transparent : Colors.white.withOpacity(0.2),
+            color: outlined
+                ? Colors.transparent
+                : Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: Colors.white.withOpacity(outlined ? 0.5 : 0.3),
+              color: Colors.white.withValues(alpha: outlined ? 0.5 : 0.3),
               width: outlined ? 2 : 1,
             ),
           ),

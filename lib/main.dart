@@ -94,10 +94,12 @@ class SubcollectionExample extends StatelessWidget {
                   'completed': false,
                   'createdAt': DateTime.now(),
                 });
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Task added to subcollection!')),
-                );
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('Task added to subcollection!')),
+                  );
+                }
               },
               child: const Text('Add Task to Subcollection'),
             ),
@@ -112,10 +114,11 @@ class SubcollectionExample extends StatelessWidget {
                   'content': 'This is a note',
                   'createdAt': DateTime.now(),
                 });
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Note added!')),
-                );
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Note added!')),
+                  );
+                }
               },
               child: const Text('Add Note (Alternative Method)'),
             ),
@@ -127,9 +130,11 @@ class SubcollectionExample extends StatelessWidget {
                 final userData = userDoc.data() as Map<String, dynamic>?;
 
                 if (userData != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Email: ${userData['email']}')),
-                  );
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Email: ${userData['email']}')),
+                    );
+                  }
                 }
               },
               child: const Text('Get User Data'),
@@ -184,9 +189,11 @@ class ComplexDataExample extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             await createComplexStructure();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Complex structure created!')),
-            );
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Complex structure created!')),
+              );
+            }
           },
           child: const Text('Create Complex Data Structure'),
         ),

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_bloc_auth/src/authentication/auth_blc/auth_bloc.dart';
-import 'package:firebase_bloc_auth/src/authentication/biometric_service.dart';
+import 'package:firebase_bloc_auth/src/authentication/auth_services/biometric_service.dart';
 import 'package:firebase_bloc_auth/src/views/private_pages/security_settings_page.dart';
 import 'package:firebase_bloc_auth/src/views/public_pages/custom_alert_dialog.dart';
 import 'package:flutter/material.dart';
@@ -586,30 +586,32 @@ class ProfileUpdatePageState extends State<ProfileUpdatePage>
                             await user.reauthenticateWithCredential(credential);
                           }
                         } on FirebaseAuthException catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content:
-                                  Text("Old password incorrect: ${e.message}"),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    "Old password incorrect: ${e.message}"),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
                           return;
                         }
-
-                        bool result = await showCustmDialog(
-                          context,
-                          title: "Update Password",
-                          msg: "Do you want to update your password?",
-                          cancelButton: "Cancel",
-                          confirmButton: "Update",
-                          color: Colors.orange,
-                          functionWhenConfirm: () {},
-                        );
-                        if (result && mounted) {
-                          context.read<AuthBloc>().add(
-                                UpdatePasswdEvent(
-                                    passwd: passwordController1.text),
-                              );
+                        if (mounted) {
+                          await showCustmDialog(
+                            context,
+                            title: "Update Password",
+                            msg: "Do you want to update your password?",
+                            cancelButton: "Cancel",
+                            confirmButton: "Update",
+                            color: Colors.orange,
+                            functionWhenConfirm: () {
+                              context.read<AuthBloc>().add(
+                                    UpdatePasswdEvent(
+                                        passwd: passwordController1.text),
+                                  );
+                            },
+                          );
                         }
                       }
                     : null,

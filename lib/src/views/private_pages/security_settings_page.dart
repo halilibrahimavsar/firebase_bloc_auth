@@ -1,4 +1,4 @@
-import 'package:firebase_bloc_auth/src/authentication/biometric_service.dart';
+import 'package:firebase_bloc_auth/src/authentication/auth_services/biometric_service.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 

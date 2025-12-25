@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:firebase_bloc_auth/src/authentication/auth_blc/auth_bloc.dart';
-import 'package:firebase_bloc_auth/src/authentication/biometric_service.dart';
+import 'package:firebase_bloc_auth/src/authentication/auth_services/biometric_service.dart';
 import 'package:firebase_bloc_auth/src/views/private_pages/biometric_auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +26,7 @@ class PublicPageState extends State<PublicPage>
   final BiometricService _biometricService = BiometricService();
   bool _obscure = true;
   bool _needsBiometricAuth = false;
-  bool _rememberMe = true;
+  // bool _rememberMe = true;
 
   @override
   void initState() {
@@ -290,29 +290,29 @@ class PublicPageState extends State<PublicPage>
                                 ),
                                 const SizedBox(height: 10),
                                 // Remember Me Checkbox
-                                Row(
-                                  children: [
-                                    Theme(
-                                      data: ThemeData(
-                                        unselectedWidgetColor: Colors.white70,
-                                      ),
-                                      child: Checkbox(
-                                        value: _rememberMe,
-                                        checkColor: Colors.blue,
-                                        activeColor: Colors.white,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _rememberMe = value ?? true;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    const Text(
-                                      "Remember Me",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
+                                // Row(
+                                //   children: [
+                                //     Theme(
+                                //       data: ThemeData(
+                                //         unselectedWidgetColor: Colors.white70,
+                                //       ),
+                                //       child: Checkbox(
+                                //         value: _rememberMe,
+                                //         checkColor: Colors.blue,
+                                //         activeColor: Colors.white,
+                                //         onChanged: (value) {
+                                //           setState(() {
+                                //             _rememberMe = value ?? true;
+                                //           });
+                                //         },
+                                //       ),
+                                //     ),
+                                //     const Text(
+                                //       "Remember Me",
+                                //       style: TextStyle(color: Colors.white),
+                                //     ),
+                                //   ],
+                                // ),
                                 const SizedBox(height: 10),
                                 Align(
                                   alignment: Alignment.centerRight,

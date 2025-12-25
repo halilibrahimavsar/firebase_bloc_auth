@@ -90,12 +90,8 @@ class RegisterPageState extends State<RegisterPage>
 
   void _isPasswdMatch(String value1, TextEditingController value2) {
     setState(() {
-      if ((value1.length == value2.text.length) && (value1 != value2.text)) {
+      if (value2.text.isNotEmpty && value1 != value2.text) {
         _errorText = 'Passwords do not match';
-      } else if (value1.length < value2.text.length) {
-        _errorText = 'Keep typing...';
-      } else if (value1.length > value2.text.length) {
-        _errorText = 'Too long';
       } else {
         _errorText = null;
       }

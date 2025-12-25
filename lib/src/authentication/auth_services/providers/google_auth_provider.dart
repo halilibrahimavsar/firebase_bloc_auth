@@ -33,7 +33,7 @@ class CustomGoogleAuthProvider extends CustomSharedAuthProvider {
     });
 
     // Obtain the auth details from user(if signed in successfully into google)
-    final GoogleSignInAuthentication googlAuth = await googleUsr.authentication;
+    final GoogleSignInAuthentication googlAuth = googleUsr.authentication;
 
     // Access Token artık authorizationClient üzerinden alınıyor
     final GoogleSignInClientAuthorization authorization =

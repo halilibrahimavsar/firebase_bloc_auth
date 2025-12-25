@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:firebase_bloc_auth/src/authentication/biometric_service.dart';
+import 'package:firebase_bloc_auth/src/authentication/auth_services/biometric_service.dart';
 import 'package:flutter/material.dart';
 
 class BiometricAuthPage extends StatefulWidget {

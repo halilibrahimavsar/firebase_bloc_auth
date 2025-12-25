@@ -18,7 +18,7 @@ class CustomSharedAuthProvider {
   }
 
   Future<void> logOut() async {
-    await GoogleSignIn().signOut().catchError(
+    await GoogleSignIn.instance.signOut().catchError(
           (error, stackTrace) => throw GoogleLogoutException(),
         );
 

@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:local_auth_android/local_auth_android.dart';
-import 'package:local_auth_ios/local_auth_ios.dart';
 
 class BiometricService {
   static final BiometricService _instance = BiometricService._internal();
@@ -11,9 +9,7 @@ class BiometricService {
 
   final LocalAuthentication _localAuth = LocalAuthentication();
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage(
-    aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ),
+    aOptions: AndroidOptions(),
   );
 
   static const String _biometricEnabledKey = 'biometric_enabled';
@@ -56,21 +52,21 @@ class BiometricService {
     try {
       return await _localAuth.authenticate(
         localizedReason: 'Please authenticate to access your account',
-        authMessages: const <AuthMessages>[
-          AndroidAuthMessages(
-            signInTitle: 'Biometric Authentication',
-            cancelButton: 'Cancel',
-            biometricHint: 'Verify identity',
-          ),
-          IOSAuthMessages(
-            cancelButton: 'Cancel',
-            goToSettingsButton: 'Settings',
-            goToSettingsDescription:
-                'Please set up your biometric authentication.',
-            lockOut:
-                'Biometric authentication is disabled. Please try again later.',
-          ),
-        ],
+        // authMessages: const <AuthMessages>[
+        //   AndroidAuthMessages(
+        //     signInTitle: 'Biometric Authentication',
+        //     cancelButton: 'Cancel',
+        //     biometricHint: 'Verify identity',
+        //   ),
+        //   IOSAuthMessages(
+        //     cancelButton: 'Cancel',
+        //     goToSettingsButton: 'Settings',
+        //     goToSettingsDescription:
+        //         'Please set up your biometric authentication.',
+        //     lockOut:
+        //         'Biometric authentication is disabled. Please try again later.',
+        //   ),
+        // ],
         options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: false,

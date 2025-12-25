@@ -8,23 +8,29 @@ class CustomGoogleAuthProvider extends CustomSharedAuthProvider {
   Future<AuthUserRepository?> googleLogin() async {
     // -----------Google stuff-------------
     // Get configurations
-    final GoogleSignIn googleSignn = GoogleSignIn();
+    final GoogleSignIn googleSignn = GoogleSignIn.instance;
+
+    // v7+ sürümü için başlatma zorunludur
+    await googleSignn.initialize();
+
     // sign in user
-    final GoogleSignInAccount? googleUsr =
-        await googleSignn.signIn().then((gUser) {
-      if (gUser != null) {
-        return gUser;
-      } else {
-        throw UserDisabledAuthException();
-      }
+    // signIn() yerine authenticate() kullanılıyor
+    final GoogleSignInAccount googleUsr =
+        await googleSignn.authenticate().catchError((error) {
+      throw UserDisabledAuthException();
     });
+
     // Obtain the auth details from user(if signed in successfully into google)
-    final GoogleSignInAuthentication? googlAuth =
-        await googleUsr?.authentication;
+    final GoogleSignInAuthentication googlAuth = await googleUsr.authentication;
+
+    // Access Token artık authorizationClient üzerinden alınıyor
+    final GoogleSignInClientAuthorization authorization =
+        await googleUsr.authorizationClient.authorizeScopes(['email']);
+
     // Create credential for Firebase
     final gUserCredential = GoogleAuthProvider.credential(
-      accessToken: googlAuth?.accessToken,
-      idToken: googlAuth?.idToken,
+      accessToken: authorization.accessToken,
+      idToken: googlAuth.idToken,
     );
 
     // -----------Firebase stuff-------------

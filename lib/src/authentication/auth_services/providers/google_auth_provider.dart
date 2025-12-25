@@ -5,6 +5,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class CustomGoogleAuthProvider extends CustomSharedAuthProvider {
+  /// Google Sign In v7+ için sessiz giriş (oturum yenileme) metodu
+  Future<void> signInSilently() async {
+    final GoogleSignIn googleSignn = GoogleSignIn.instance;
+    try {
+      // v7+ sürümü için başlatma zorunludur
+      await googleSignn.initialize();
+      // Not: signInSilently() kaldırıldı. initialize() metodu önceki oturumu otomatik olarak restore eder.
+    } catch (e) {
+      // Sessiz giriş başarısız olursa (örn: kullanıcı daha önce giriş yapmamışsa) yoksay
+    }
+  }
+
   Future<AuthUserRepository?> googleLogin() async {
     // -----------Google stuff-------------
     // Get configurations

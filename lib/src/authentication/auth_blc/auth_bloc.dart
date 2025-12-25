@@ -28,6 +28,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         AuthUserRepository? currentUser =
             await CustomSharedAuthProvider().isAuthenticated();
 
+        // Eğer kullanıcı giriş yapmışsa, Google oturumunu da (varsa) sessizce yenile
+        if (currentUser != null) {
+          await CustomGoogleAuthProvider().signInSilently();
+        }
+
         if (currentUser != null && currentUser.isEmailVerified) {
           // Create user collection if enabled
           if (createUserCollection) {

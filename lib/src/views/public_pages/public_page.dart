@@ -26,6 +26,7 @@ class PublicPageState extends State<PublicPage>
   final BiometricService _biometricService = BiometricService();
   bool _obscure = true;
   bool _needsBiometricAuth = false;
+  bool _rememberMe = true;
 
   @override
   void initState() {
@@ -286,6 +287,31 @@ class PublicPageState extends State<PublicPage>
                                   onToggle: () {
                                     setState(() => _obscure = !_obscure);
                                   },
+                                ),
+                                const SizedBox(height: 10),
+                                // Remember Me Checkbox
+                                Row(
+                                  children: [
+                                    Theme(
+                                      data: ThemeData(
+                                        unselectedWidgetColor: Colors.white70,
+                                      ),
+                                      child: Checkbox(
+                                        value: _rememberMe,
+                                        checkColor: Colors.blue,
+                                        activeColor: Colors.white,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _rememberMe = value ?? true;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    const Text(
+                                      "Remember Me",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(height: 10),
                                 Align(
